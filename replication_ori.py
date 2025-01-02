@@ -3,6 +3,14 @@
     # Output: A hidden message in Text
 # k-mer: a substring of length k
 # Count(Text, Pattern): number of times that a k-mer Pattern appears as a substring of Text
+"""
+PatternCount(Text, Pattern)
+    count ← 0
+    for i ← 0 to |Text| − |Pattern|
+        if Text(i, |Pattern|) = Pattern
+            count ← count + 1
+    return count
+"""
 def pattern_count(text: str, pattern: str) -> int:
     count = 0
     # Slide through the DNA sequence one base at a time
@@ -33,6 +41,16 @@ def frequency_table(text: str, k: int) -> dict[str, int]:
             freq_map[pattern] += 1
     return freq_map
 
+"""
+BetterFrequentWords(Text, k)
+    FrequentPatterns ← an array of strings of length 0
+    freqMap ← FrequencyTable(Text, k)
+    max ← MaxMap(freqMap)
+    for all strings Pattern in freqMap
+        if freqMap[pattern] = max
+            append Pattern to frequentPatterns
+    return frequentPatterns
+"""
 def frequent_words(text: str, k: int) -> list[str]:
     frequent_patterns = []
     # Get counts of all k-mers in the DNA sequence
@@ -80,6 +98,19 @@ print(exercise_1())
     # Input: A string Genome, and integers k, L, and t
     # Output: All distinct k-mers forming (L, t)-clumps in Genome
 # (L, t)-clump: a k-mer Pattern that appears in at least t different locations within every interval of length L in the genome
+"""
+FindClumps(Text, k, L, t)
+    Patterns ← an array of strings of length 0
+    n ← |Text|
+    for every integer i between 0 and n − L
+        Window ← Text(i, L)
+        freqMap ← FrequencyTable(Window, k)
+        for every key s in freqMap
+            if freqMap[s] ≥ t
+                append s to Patterns
+    remove duplicates from Patterns
+    return Patterns
+"""
 def find_clumps(genome: str, k: int, l: int, t: int) -> list[str]:
     patterns = set()
     n = len(genome)
@@ -173,6 +204,15 @@ def approximate_pattern_matching(pattern: str, text: str, d: int) -> list[int]:
 # APPROXIMATE PATTERN COUNT PROBLEM: Count the occurrences of a *Pattern* in a *Text*, allowing for up to *d* mismatches
     # Input: Strings *Pattern* and *Text* as well as an integer *d*
     # Output: Count_d(Text, Pattern)
+"""
+ApproximatePatternCount(Text, Pattern, d)
+    count ← 0
+    for i ← 0 to |Text| − |Pattern|
+        Pattern′ ← Text(i , |Pattern|)
+        if HammingDistance(Pattern, Pattern′) ≤ d
+            count ← count + 1
+    return count
+"""
 def approximate_pattern_count(text: str, pattern: str, d: int) -> int:
     count = 0
     for i in range(0, len(text) - len(pattern) + 1):
@@ -196,6 +236,26 @@ print(exercise_3())
     # Input: A string *Text* as well as integers *k* and *d*
     # Output: All most frequent *k-*mers with up to *d* mismatches in *Text*
 # d-neighborhood: all k-mers within Hamming distance d from Pattern, denoted Neighbors(Pattern, d)
+"""
+FrequentWordsWithMismatches(Text, k, d)
+    Patterns ← an array of strings of length 0
+    freqMap ← empty map
+    n ← |Text|
+    for i ← 0 to n - k
+        Pattern ← Text(i, k)
+        neighborhood ← Neighbors(Pattern, d)
+        for j ← 0 to |neighborhood| - 1
+            neighbor ← neighborhood[j]
+            if freqMap[neighbor] doesn't exist
+                freqMap[neighbor] ← 1
+            else
+                freqMap[neighbor] ← freqMap[neighbor] + 1
+    m ← MaxMap(freqMap)
+    for every key Pattern in freqMap
+        if freqMap[Pattern] = m
+            append Pattern to Patterns
+    return Patterns
+"""
 def neighbors(pattern: str, d: int) -> set[str]:
     if d == 0:
         return {pattern}
