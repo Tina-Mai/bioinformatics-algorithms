@@ -32,3 +32,9 @@ def frequent_words(text: str, k: int) -> list[str]:
         if freq_map[pattern] == max_count:
             frequent_patterns.append(pattern)
     return frequent_patterns
+
+
+# REVERSE COMPLEMENT PROBLEM: Find the reverse complement of a DNA string
+def reverse_complement(pattern: str) -> str:
+    complement = {'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C'}
+    return ''.join(complement[base] for base in reversed(pattern))
