@@ -248,9 +248,23 @@ def frequent_words_mismatches_reverse_complements(text: str, k: int, d: int) -> 
     patterns = []
     freq_map = {}
     n = len(text)
+    
+    # Look at each k-mer in the text
     for i in range(0, n - k + 1):
         pattern = text[i:i + k]
+        # Get all similar sequences within d mutations
         neighborhood = neighbors(pattern, d)
         for neighbor in neighborhood:
+            # Count both the neighbor and its reverse complement
+            rc = reverse_complement(neighbor)
             freq_map[neighbor] = freq_map.get(neighbor, 0) + 1
+            freq_map[rc] = freq_map.get(rc, 0) + 1
+    
+    # Find patterns with maximum combined frequency
+    if freq_map:
+        max_count = max(freq_map.values())
+        for pattern in freq_map:
+            if freq_map[pattern] == max_count:
+                patterns.append(pattern)
+    
     return patterns
