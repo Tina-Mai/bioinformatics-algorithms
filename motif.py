@@ -42,4 +42,3 @@ def motif_enumeration(dna: list[str], k: int, d: int) -> list[str]:
                     patterns.add(pattern_prime)
     return list(patterns)
 
-print(motif_enumeration(["ATTTGGC", "TGCCTTA", "CGGTATC", "GAAAATT"], 3, 1))
